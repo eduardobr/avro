@@ -58,7 +58,7 @@ namespace Avro.IO
         /// <param name="b">Boolean value to write</param>
         public void WriteBoolean(bool b)
         {
-            writeByte((byte)(b ? 1 : 0));
+            WriteByte((byte)(b ? 1 : 0));
         }
 
         /// <summary>
@@ -78,10 +78,10 @@ namespace Avro.IO
             ulong n = (ulong)((value << 1) ^ (value >> 63));
             while ((n & ~0x7FUL) != 0)
             {
-                writeByte((byte)((n & 0x7f) | 0x80));
+                WriteByte((byte)((n & 0x7f) | 0x80));
                 n >>= 7;
             }
-            writeByte((byte)n);
+            WriteByte((byte)n);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Avro.IO
         {
             byte[] buffer = BitConverter.GetBytes(value);
             if (!BitConverter.IsLittleEndian) Array.Reverse(buffer);
-            writeBytes(buffer);
+            WriteBytesInternal(buffer);
         }
         /// <summary>
         ///A double is written as 8 bytes.
@@ -106,14 +106,14 @@ namespace Avro.IO
         {
             long bits = BitConverter.DoubleToInt64Bits(value);
 
-            writeByte((byte)(bits & 0xFF));
-            writeByte((byte)((bits >> 8) & 0xFF));
-            writeByte((byte)((bits >> 16) & 0xFF));
-            writeByte((byte)((bits >> 24) & 0xFF));
-            writeByte((byte)((bits >> 32) & 0xFF));
-            writeByte((byte)((bits >> 40) & 0xFF));
-            writeByte((byte)((bits >> 48) & 0xFF));
-            writeByte((byte)((bits >> 56) & 0xFF));
+            WriteByte((byte)(bits & 0xFF));
+            WriteByte((byte)((bits >> 8) & 0xFF));
+            WriteByte((byte)((bits >> 16) & 0xFF));
+            WriteByte((byte)((bits >> 24) & 0xFF));
+            WriteByte((byte)((bits >> 32) & 0xFF));
+            WriteByte((byte)((bits >> 40) & 0xFF));
+            WriteByte((byte)((bits >> 48) & 0xFF));
+            WriteByte((byte)((bits >> 56) & 0xFF));
 
         }
 
@@ -124,7 +124,7 @@ namespace Avro.IO
         public void WriteBytes(byte[] value)
         {
             WriteLong(value.Length);
-            writeBytes(value);
+            WriteBytesInternal(value);
         }
 
         /// <summary>
@@ -194,12 +194,12 @@ namespace Avro.IO
             Stream.Write(data, start, len);
         }
 
-        private void writeBytes(byte[] bytes)
+        private void WriteBytesInternal(byte[] bytes)
         {
             Stream.Write(bytes, 0, bytes.Length);
         }
 
-        private void writeByte(byte b)
+        private void WriteByte(byte b)
         {
             Stream.WriteByte(b);
         }

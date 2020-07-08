@@ -150,7 +150,7 @@ namespace Avro.Specific
             public SpecificArrayAccess(ArraySchema readerSchema)
             {
                 bool nEnum = false;
-                string type = Avro.CodeGen.getType(readerSchema, false, ref nEnum);
+                string type = Avro.CodeGen.GetDataType(readerSchema, false, ref nEnum);
                 type = type.Remove(0, 6);              // remove IList<
                 type = type.Remove(type.Length - 1);   // remove >
 
@@ -202,7 +202,7 @@ namespace Avro.Specific
             public SpecificMapAccess(MapSchema readerSchema)
             {
                 bool nEnum = false;
-                string type = Avro.CodeGen.getType(readerSchema, false, ref nEnum);
+                string type = Avro.CodeGen.GetDataType(readerSchema, false, ref nEnum);
                 type = type.Remove(0, 19);             // remove IDictionary<string,
                 type = type.Remove(type.Length - 1);   // remove >
 

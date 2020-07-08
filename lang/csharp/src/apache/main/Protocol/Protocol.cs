@@ -203,7 +203,7 @@ namespace Avro
             foreach (KeyValuePair<string,Message> message in this.Messages)
             {
                 writer.WritePropertyName(message.Key);
-                message.Value.writeJson(writer, names, this.Namespace);
+                message.Value.WriteJson(writer, names, this.Namespace);
             }
 
             writer.WriteEndObject();

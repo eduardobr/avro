@@ -154,7 +154,7 @@ namespace Avro.Generic
         {
             if (readerSchema.Tag == Schema.Type.Union && writerSchema.Tag != Schema.Type.Union)
             {
-                readerSchema = findBranch(readerSchema as UnionSchema, writerSchema);
+                readerSchema = FindBranch(readerSchema as UnionSchema, writerSchema);
             }
             /*
             if (!readerSchema.CanRead(writerSchema))
@@ -544,7 +544,7 @@ namespace Avro.Generic
             Schema ws = writerSchema[index];
 
             if (readerSchema is UnionSchema)
-                readerSchema = findBranch(readerSchema as UnionSchema, ws);
+                readerSchema = FindBranch(readerSchema as UnionSchema, ws);
             else
                 if (!readerSchema.CanRead(ws))
                     throw new AvroException("Schema mismatch. Reader: " + ReaderSchema + ", writer: " + WriterSchema);
@@ -693,7 +693,7 @@ namespace Avro.Generic
         /// <param name="us">Union schema.</param>
         /// <param name="s">Schema to find in the union schema.</param>
         /// <returns>Schema branch in the union schema.</returns>
-        protected static Schema findBranch(UnionSchema us, Schema s)
+        protected static Schema FindBranch(UnionSchema us, Schema s)
         {
             int index = us.MatchingBranch(s);
             if (index >= 0) return us[index];

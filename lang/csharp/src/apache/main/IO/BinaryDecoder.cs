@@ -50,7 +50,7 @@ namespace Avro.IO
         /// <returns></returns>
         public bool ReadBoolean()
         {
-            byte b = read();
+            byte b = Read();
             if (b == 0) return false;
             if (b == 1) return true;
             throw new AvroException("Not a boolean value in the stream: " + b);
@@ -71,12 +71,12 @@ namespace Avro.IO
         /// <returns>A long value.</returns>
         public long ReadLong()
         {
-            byte b = read();
+            byte b = Read();
             ulong n = b & 0x7FUL;
             int shift = 7;
             while ((b & 0x80) != 0)
             {
-                b = read();
+                b = Read();
                 n |= (b & 0x7FUL) << shift;
                 shift += 7;
             }
@@ -90,7 +90,7 @@ namespace Avro.IO
         /// <returns></returns>
         public byte[] ReadBytes()
         {
-            return read(ReadLong());
+            return Read(ReadLong());
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Avro.IO
         /// <returns>Size of the first block of an array.</returns>
         public long ReadArrayStart()
         {
-            return doReadItemCount();
+            return DoReadItemCount();
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Avro.IO
         /// <returns>Number of items in the next block of an array.</returns>
         public long ReadArrayNext()
         {
-            return doReadItemCount();
+            return DoReadItemCount();
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Avro.IO
         /// <returns>Size of the next block of map-entries.</returns>
         public long ReadMapStart()
         {
-            return doReadItemCount();
+            return DoReadItemCount();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Avro.IO
         /// <returns>Number of entires in the next block of a map.</returns>
         public long ReadMapNext()
         {
-            return doReadItemCount();
+            return DoReadItemCount();
         }
 
         /// <summary>
@@ -262,21 +262,21 @@ namespace Avro.IO
         }
 
         // Read p bytes into a new byte buffer
-        private byte[] read(long p)
+        private byte[] Read(long p)
         {
             byte[] buffer = new byte[p];
             Read(buffer, 0, buffer.Length);
             return buffer;
         }
 
-        private byte read()
+        private byte Read()
         {
             int n = stream.ReadByte();
             if (n >= 0) return (byte)n;
             throw new AvroException("End of stream reached");
         }
 
-        private long doReadItemCount()
+        private long DoReadItemCount()
         {
             long result = ReadLong();
             if (result < 0)

@@ -146,7 +146,7 @@ namespace Avro
         /// <param name="writer">writer</param>
         /// <param name="names">list of names written</param>
         /// <param name="encspace">enclosing namespace</param>
-        internal void writeJson(Newtonsoft.Json.JsonTextWriter writer, SchemaNames names, string encspace)
+        internal void WriteJson(Newtonsoft.Json.JsonTextWriter writer, SchemaNames names, string encspace)
         {
             writer.WriteStartObject();
             JsonHelper.writeIfNotNullOrEmpty(writer, "doc", this.Doc);
@@ -188,8 +188,8 @@ namespace Avro
           Message that = obj as Message;
           return this.Name.Equals(that.Name, StringComparison.Ordinal) &&
                  this.Request.Equals(that.Request) &&
-                 areEqual(this.Response, that.Response) &&
-                 areEqual(this.Error, that.Error);
+                 AreEqual(this.Response, that.Response) &&
+                 AreEqual(this.Error, that.Error);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Avro
         /// <param name="o1"></param>
         /// <param name="o2"></param>
         /// <returns></returns>
-        protected static bool areEqual(object o1, object o2)
+        protected static bool AreEqual(object o1, object o2)
         {
             return o1 == null ? o2 == null : o1.Equals(o2);
         }

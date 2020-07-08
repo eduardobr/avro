@@ -32,7 +32,7 @@ namespace Avro.IO
         /// <returns></returns>
         public float ReadFloat()
         {
-            byte[] buffer = read(4);
+            byte[] buffer = Read(4);
 
             if (!BitConverter.IsLittleEndian)
                 Array.Reverse(buffer);

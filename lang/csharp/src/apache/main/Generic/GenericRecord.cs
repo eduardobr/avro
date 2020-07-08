@@ -172,10 +172,10 @@ namespace Avro.Generic
         public bool Equals(GenericRecord other)
         {
             return Schema.Equals(other.Schema)
-                && arraysEqual(contents, other.contents);
+                && ArraysEqual(contents, other.contents);
         }
 
-        private static bool mapsEqual(IDictionary d1, IDictionary d2)
+        private static bool MapsEqual(IDictionary d1, IDictionary d2)
         {
             if (d1.Count != d2.Count) return false;
 
@@ -183,37 +183,37 @@ namespace Avro.Generic
             {
                 if (!d2.Contains(kv.Key))
                     return false;
-                if (!objectsEqual(d2[kv.Key], kv.Value))
+                if (!ObjectsEqual(d2[kv.Key], kv.Value))
                     return false;
             }
             return true;
         }
 
-        private static bool objectsEqual(object o1, object o2)
+        private static bool ObjectsEqual(object o1, object o2)
         {
             if (o1 == null) return o2 == null;
             if (o2 == null) return false;
             if (o1 is Array)
             {
                 if (!(o2 is Array)) return false;
-                return arraysEqual((Array)o1 , (Array)o2);
+                return ArraysEqual((Array)o1 , (Array)o2);
             }
 
             if (o1 is IDictionary)
             {
                 if (!(o2 is IDictionary)) return false;
-                return mapsEqual((IDictionary)o1, (IDictionary)o2);
+                return MapsEqual((IDictionary)o1, (IDictionary)o2);
             }
 
             return o1.Equals(o2);
         }
 
-        private static bool arraysEqual(Array a1, Array a2)
+        private static bool ArraysEqual(Array a1, Array a2)
         {
             if (a1.Length != a2.Length) return false;
             for (int i = 0; i < a1.Length; i++)
             {
-                if (!objectsEqual(a1.GetValue(i), a2.GetValue(i))) return false;
+                if (!ObjectsEqual(a1.GetValue(i), a2.GetValue(i))) return false;
             }
             return true;
         }
